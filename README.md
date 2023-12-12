@@ -17,7 +17,7 @@ usage:
 ```bash
 file_path = 'path_to_rawdata.dat'
 twixObj  =  twixtools.read_twix(file_path)
-forward, reflect = dico_tools.read_dico(twixobj)
+forward, reflect = dico_tools.read_dico(twixObj)
 ```
 `forward` and `reflect` represent lists of NumPy arrays, where each element in the list, a NumPy array, corresponds to a distinct RF object. When referring to an RF object, we denote various types of RF within the sequence, such as excitation or saturation. These RF objects are differentiated by their respective durations, distinguishing one from another.
 
@@ -28,7 +28,7 @@ usage:
 ```bash
 file_path = 'path_to_rawdata.dat'
 twixObj  =  twixtools.read_twix(file_path)
-forward, rf_length = dico_tools.read_dico(twixobj)
+forward, rf_length = dico_tools.read_dico_memOpt(twixObj)
 ```
 `forward` comprises a list of NumPy arrays, each containing the integral of absolute values derived from the forward signal. `rf_length` is a Python list, providing the duration of RF objects in us.
 
