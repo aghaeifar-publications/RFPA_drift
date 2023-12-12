@@ -9,7 +9,7 @@ The tool is tested under Python 3.10 with the following package installed:
  - twixtools ([+](https://github.com/pehses/twixtools))
 
 ### Scripts:
-The **dico_tools.py** script provides two functions for extracting dictionary values from raw data:
+The **dico_tools.py** script provides two functions for extracting DICO values from raw data:
 
 1) `read_dico(twixObj)`: This function retrieves all samples from both the forward and reflected signals. Note that using this function requires sufficient available and free memory.
 
