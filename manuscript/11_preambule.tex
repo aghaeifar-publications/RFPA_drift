@@ -1,0 +1,135 @@
+%% ----------
+%%   Wiley
+%% ----------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% A template for Wiley article submissions.
+% Developed by Overleaf. 
+%
+% Please note that whilst this template provides a 
+% preview of the typeset manuscript for submission, it 
+% will not necessarily be the final publication layout.
+%
+% Usage notes:
+% The "blind" option will make anonymous all author, affiliation, correspondence and funding information.
+% Use "num-refs" option for numerical citation and references style.
+% Use "alpha-refs" option for author-year citation and references style.
+
+% Update article type if known
+% \papertype{Note}
+% Include section in journal if known, otherwise delete
+% \paperfield{Submitted to Magnetic Resonance in Medicine}
+\graphicspath{{./figures/}}
+
+%% ---------------
+%%   Word count
+%% ---------------
+
+\newcommand{\detailtexcount}[1]{%
+   \immediate\write18{texcount -merge -sum -incbib -dir #1.tex > #1.wcdetail }%
+   \input{#1.wcdetail}%
+}
+ 
+\newcommand{\quickwordcount}[1]{%
+   \immediate\write18{texcount -1 -sum -merge #1.tex > #1-words.sum }%
+   \input{#1-words.sum} words%
+}
+ 
+\newcommand{\quickcharcount}[1]{%
+   \immediate\write18{texcount -1 -sum -merge -char #1.tex > #1-chars.sum }%
+   \input{#1-chars.sum} characters (not including spaces)%
+}
+
+%% ------------------
+%%   Miscellaneous
+%% ------------------
+
+\usepackage{siunitx}    % SI units
+\usepackage{multicol}   % multiple columns
+\usepackage{caption}    % needed with multiple columns?
+\usepackage{widetable}      % Tables that take the whole page width
+\usepackage{booktabs}       % Nice horizontal lines for tables
+\usepackage{hyperref}
+\usepackage{cleveref}   % "clever references" -> allows to ref multiple equations at once
+\usepackage{float}
+% \usepackage{todonotes}
+\usepackage{marginnote}
+\usepackage{color}
+\definecolor{darkgreen}{RGB}{0,104,0}
+
+% \let\oldmarginnote\marginnote
+% \renewcommand*{\marginnote}[1]{%
+%    \begingroup%
+%    \textcolor{red}{\oldmarginnote{#1}}%
+%    \endgroup%
+% }
+
+% \newcommand*{\rev}[1]{\textcolor{red}{#1}} % annotated version
+\newcommand*{\rev}[1]{#1}                  % clean version
+\renewcommand{\marginnote}[1]{\ignorespaces}
+
+
+\newcounter{suppinfo}
+\renewcommand{\thesuppinfo}{S\arabic{suppinfo}}
+\newenvironment{suppinfo}{
+\refstepcounter{suppinfo}\noindent\textbf{Figure \thesuppinfo}%
+}
+
+
+\newenvironment{Figure}
+  {\par\medskip\noindent\minipage{\linewidth}}
+  {\endminipage\par\medskip}
+
+%% -------------
+%%   Math mode
+%% -------------
+
+% packages
+\usepackage{amsmath}    % Base class for math
+\usepackage{amssymb}    % Additional symbols
+\usepackage{nicefrac}   % Nice oneliner fractions
+% \usepackage{mathtools}  % Extends amsmath (multiline, extensible symbols, boxes)
+\usepackage{stmaryrd}   % St Mary Road symbols: \llbracket, \rrbracket, ...
+
+% operators
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+\newcommand*{\T}{^\mathrm{T}}
+\renewcommand*{\H}{^\mathrm{H}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand*\Diff[1]{\mathop{}\!\mathrm{d^#1}}
+\newcommand*{\dequal}{\overset{\Delta}{=}}
+\newcommand*{\cequal}{\overset{c}{=}}
+\newcommand*{\capprox}{\overset{c}{\approx}}
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand*{\cov}{\mathrm{cov}{}}
+\newcommand*{\tr}{\mathrm{Tr}{}}
+\newcommand*{\KL}{\mathrm{KL}{}}
+\newcommand*{\dett}[1]{\left|#1\right|}
+\renewcommand*\vec[1]{\mathbf{\boldsymbol{#1}}}
+% \newcommand*\vect[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand*{\re}[1]{\operatorname{Re}\left\{#1\right\}}
+\newcommand*{\im}[1]{\operatorname{Im}\left\{#1\right\}}
+
+
+% variable names
+\newcommand*{\varmean}{r}
+\newcommand*{\VARMEAN}{R}
+\newcommand*{\varsens}{s}
+\newcommand*{\VARSENS}{S}
+\newcommand*{\varlogsens}{z}
+\newcommand*{\VARLOGSENS}{Z}
+\newcommand*{\varmodmean}{m}
+\newcommand*{\VARMODMEAN}{M}
+\newcommand*{\varnoise}{\varepsilon}
+\newcommand*{\VARNOISE}{E}
+\newcommand*{\varkspace}{\xi}
+\newcommand*{\VARKSPACE}{\Xi}
+\newcommand*{\varimspace}{x}
+\newcommand*{\VARIMSPACE}{X}
+\newcommand*{\varnbcoil}{C}
+\newcommand*{\varnbgrid}{N}
+\newcommand*{\varnbobs}{K}
+\newcommand*{\VARSUB}{\Phi}
+\newcommand*{\VARPUSHPULL}{\Psi}

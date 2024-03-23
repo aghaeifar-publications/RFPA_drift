@@ -1,0 +1,65 @@
+
+\section{Method}\label{sec2}
+
+\subsection{MRI measurement setup}
+All measurements were performed and data were collected on a MAGNETOM 9.4T MRI scanner (Siemens Healthcare, Erlangen, Germany) running Syngo VE12U software. The scanner was equipped with an SC72 whole-body gradient coil with a maximum amplitude and slew rate of 70 mT/m and 200 T/m/s, respectively. A 16-channel pTx system was utilized to enable RF transmission, with 8 of those channels being newly added following a scanner upgrade. As provided by the scanner manufacturer, the Tx coils were driven by 16 separate RFPAs of which 8 were of a more recent design. In the subsequent sections, the former and updated RFPA designs are denoted as group 1 and group 2,respectively. A custom built head array coil with 16 transmit and 31 receive elements was used for RF transmission and signal reception.\cite{shajan201416} 
+
+\rev{Given the limited availability of the MAGNETOM 9.4T MRI scanner, the evaluation of }\hyperlink{subsubsection.2.2.1}{inter-pulse RFPA drift assessment} (as detailed below) was partially repeated on Siemens MAGNETOM 7T Plus, Siemens MAGNETOM 7T Terra, and Siemens ISEULT MAGNETOM 11.7T MR scanners to assess RFPA behaviour at other frequencies. \marginnote{R1.2}\rev{The RFPAs for all four scanners are manufactured by Comet (Comet XYLON international GmbH, Stolberg, Germany). The MAGNETOM 9.4T and MAGNETOM 7T Plus MR scanners use 1\,kW RFPA units, whereas the MAGNETOM 7T Terra and ISEULT MAGNETOM 11.7T MR scanners are fitted with 2\,kW RFPA units.}
+
+\subsection{RFPA drift assessment}
+As an internal part of the pTx safety system, each of the RF transmission lines incorporates directional couplers (DICOs), which are responsible for monitoring the forward and reflected waveforms and enabling inline calculation of specific absorption rate (SAR). The measurements obtained from a DICO are digitized using a sampling rate of 1\,MHz. By activating a switch through the scanner's command line interface, the digitized data can be saved in its raw form, allowing for later retrieval, analysis and processing. The forward values recorded by DICOs were utilized in this study to evaluate RFPA drifts. The literature has also reported various other applications by utilizing the recorded values from DICOs.\cite{Jaeschke2019,Williams2021,Hess2017}
+
+%TC:ignore 
+\begin{table*}[t]%
+\caption{\ FA, TR, RF length, and transmit voltages examined for inter-pulse and intra-pulse RFPA drift assessment.\label{tab:protocol}}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}ccccc}
+\toprule
+ & \textbf{FA (deg.)} & \textbf{TR (ms)} & \textbf{RF Length (ms)} & \textbf{Transmit Voltage\tnote{$^{1}$} (V)} \\ \cline{2-5} 
+\multirow{5}{*} {Inter-Pulse} & 10 & 3:3:21\tnote{$^{2}$} & 0.2, 0.4, 0.8, 1.2, 2 & 15.5, 9.3, 4.5, 3, 1.8 \\
+ & 10 & 6:3:24 & 4 & 0.9 \\
+ & 10 & 9:3:27 & 6 & 0.475\\
+ & 10 & 12:3:30 & 8 & 0.47\\
+ & 30 & 3:3:21 & 1.2 & 9.3 \\
+ & 60 & 3:3:21 & 1.2 & 18.2 \\ \cline{2-5} 
+Intra-Pulse & - & 10000 & 15 & 12.5,25,50,75,100,125,150,175 \\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}%%[341pt]
+\item[$^{1}$] This represents the transmit voltage on the RFPA output after accounting for the system scaling factor of 0.25 for 16 transmit channels.
+\item[$^{2}$] MATLAB notation: initial value:increment:last value
+\end{tablenotes}
+\end{table*}
+%TC:endignore 
+
+\subsubsection{Inter-pulse drift}
+An RF-only sequence without gradients was employed to investigate impact of RF length, RF flip-angle, and TR on RFPA drift. For simplicity, a non-selective rectangular pulse was used and applied in all measurements until the RFPA output became stable and the drifting ceased. The measurements were repeated by adjusting one parameter within a given range while keeping the other two factors constant. In consideration of hardware safeguards, the highest analyzed RF duty-cycle -- defined as the ratio of RF length to TR -- was 66.6\%.  The ranges of FA, TR, and RF length investigated in this study are reported in table \ref{tab:protocol}. 
+
+\marginnote{R1.2}\rev{An assessment of inter-pulse drift between scanners was conducted by configuring the transmit voltage of each RFPA to generate a 10\,V rectangular RF pulse. Applying the default scaling factor of $\frac{\sqrt{nTx} }{nTx}$, where nTx represents the number of transmit channels, this equates to setting the system transmit voltage at 40\,V for the MAGNETOM 9.4T, which has 16 transmit channels, and at 28.284\,V for other scanners equipped with 8 transmit channels. Measurements were iterated across TR intervals ranging from 3 to 21\,ms, with increments of 3\,ms. RF duration fixed at 1.5\,ms remained constant throughout the experiment.}
+
+\subsubsection{Intra-pulse drift}
+A sequence using only RF pulses, resembling inter-pulse assessment, was utilized. The duration of each RF pulse was set at 15\,ms and executed 50 times. TR was extended to 10 seconds to ensure sufficient relaxation of the RFPAs before the commencement of the subsequent RF pulse. \marginnote{R1.10}\rev{The determination of this 10-second TR duration was based on experimental evaluation and could vary for different RFPA models.} The study was replicated using various \rev{RFPA} transmit voltages spanning from 12.5\,V to 175\,V (table \ref{tab:protocol}), with the highest allowable transmit voltage per channel being 200\,V.
+
+
+
+\subsection{Drift correction}
+\subsubsection{Predictive correction }
+Two scans were conducted, and the DICOs samples recorded during the first scan were utilized to correct for the drift in the second run. The transmit voltage of each RF pulses was scaled to achieve a similar excitation flip-angle as the previous pulse. Correction factors were calculated as:
+%TC:ignore 
+\begin{equation}
+CF_{n,c} = \frac{\sum_{m=1}^L \mid RF_{n,c}[m]\mid}{\sum_{m=1}^L \mid RF_{n-1,c}[m]\mid}, \quad n\in\left[2, N\right], c\in\left[1, 16\right] \label{eq:predictive_eq}
+\end{equation}
+%TC:endignore 
+
+where the correction factor $CF_{n,c}$ was calculated for the $n^{th}$ RF pulse with $L$ samples and $c^{th}$ Tx channel and with $N$ RF pulses in total played out in the sequence. 
+The correction factors were saved in a text file and subsequently loaded before the second sequence started. The corrections table had dimensions of $N \times 16$, where 16 represents the number of Tx channels, and $N$ represents the number of executed RF pulses. During run-time, the transmit voltage of each individual Tx channel was updated for each TR.
+
+\subsubsection{\rev{Run-time} correction}
+The reconstruction pipeline was modified to incorporate the reading and sorting of DICOs output in parallel with data acquisition. This modification enabled the pipeline to provide real-time feedback to the ongoing sequence. The modification was implemented using the vendor's reconstruction software called image calculation environment (ICE). Unlike the \hyperlink{subsubsection.2.3.1}{predictive approach}, where the $n^{th}$ RF pulse was used to calculate the scaling for $(n+1)^{th}$ RF pulse, a constant RF pulse in the sequence was used as a reference. This means that in equation \eqref{eq:predictive_eq}, the chosen RF in the denominator remained fixed (typically, the first RF can function as an appropriate reference). The correction factor obtained from the $n^{th}$ RF was then applied to correct for the $(n+m)^{th}$ RF, where $m$ is an integer greater than or equal to 1 and its value is determined by factors such as the duration of the RF, TR, and the time necessary for inline calculations.
+
+\subsection{Imaging protocols}
+
+The evaluation of RFPA drift correction was conducted using a bSSFP sequence \marginnote{R2.1}\rev{and $\mathrm{B_{1}^{+}}$ mapping using a 2D presaturation TurboFLASH (satTFL)\cite{chung2010rapid} sequence}. A polymer-based phantom with short $\text{T}_1$ ($\approx$460\,ms) was utilized to attain steady-state faster and mitigate the overlap between RFPA drift and transient states in bSSFP. For bSSFP measurments, a single 3 mm slice was measured with 40 repetitions. The images were acquired using sign-alternated RF pulses, preceded by 100 dummy RF pulses to ensure a steady-state condition. The acquisition protocol included FoV: 192$\times$192 mm$^{2}$, resolution: 1.5$\times$1.5 mm$^{2}$, TE/TR: 1.6/3.2\,ms, FA: 15\textdegree, and RF duration of 1\,ms (sinc pulse with time-bandwidth product of 2.0). The first RF pulse (played out as a dummy scan) was chosen as reference for \hyperlink{subsubsection.2.3.2}{\rev{run-time} correction}. PE lines were acquired with both a linear and a centric reordering scheme. The pairing strategy was used for eddy current compensation in centric reordering. \cite{Bieri2005} \marginnote{R2.1}\rev{The satTFL measurement comprised five unsaturated scans repeated consecutively, followed by one scan prepared using a presaturation pulse. To minimize the impact of $\mathrm{T_1}$ on the measured $\mathrm{B_{1}^{+}}$, a centric reordering scheme was employed during the readout. Similar to the bSSFP scans, the initial RF pulse was selected as the reference. The acquisition protocol included FoV: 220$\times$220 mm$^{2}$, resolution: 3.4$\times$3.4 mm$^{2}$, TE/TR: 1.57/4920\,ms, FA: 5\textdegree, and RF duration of 1\,ms}. Two healthy volunteers for bSSFP measurements \rev{and one healthy volunteer for satTFL measurements} underwent scanning in compliance with the policies and procedures of the local research ethics guidelines. FoV increased to 222x222 mm$^{2}$ for bSSFP in in-vivo scans, and only the linear reordering scheme was applied and assessed.
+% \clearpage
+
+
+% \mycounter{\quickwordcount{04_methods}}
