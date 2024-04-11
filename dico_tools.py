@@ -33,6 +33,8 @@ def read_dico(twixObj):
 # memory optimized version, but slower. Only save integral of forward signal
 def read_dico_memOpt(twixObj):
     mdb_vop = [mdb for mdb in twixObj[-1]['mdb'] if mdb.is_flag_set('MDH_VOP')]
+    if len(mdb_vop) == 0:
+        raise ValueError('No DICO data found in the file')
     forward_integral = []
     forward_length = []
     for mdb in tqdm(mdb_vop, desc = 'Reading DICO'):
@@ -55,8 +57,12 @@ def read_dico_memOpt(twixObj):
 
 
 def plot_drift(twixObj):
-    forward_integral, _ = read_dico_memOpt(twixObj)
-    for dico in forward_integral:
-        _, ax = plt.subplots()
-        ax.plot(forward_integral[0].squeeze().T)
-    plt.show()
+    forward_integral, forward_length = read_dico_memOpt(twixObj)
+    fig, axes = plt.subplots(nrows=len(forward_integral), ncols=1, figsize=(10, 5 * len(forward_integral)))
+    for dico, L, ax in zip(forward_integral, forward_length, axes.flatten()):
+        drift = 100 * (dico/dico[:,[0]] - 1)
+        ax.plot(drift.squeeze().T)
+        ax.set_title(f'RF Length: {L} us')
+        ax.set_xlabel('RF Pulse No.')
+        ax.set_ylabel('Drift (%)')
+    # plt.show()
