@@ -41,3 +41,7 @@ usage:
 chmod +x predictive_correction.py
 ./predictive_correction path_to_rawdata.dat
 ```
+### Citation:
+Please refer to the following publication for citation of this work:
+
+https://doi.org/10.1002/mrm.30078
