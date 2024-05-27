@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Aghaeifar"
+  given-names: "Ali"
+  orcid: "https://orcid.org/0000-0002-6964-0992"
+title: "RFPA Drift Correction"
+version: 1.0.0
+doi: 10.1002/mrm.30078
+date-released: 2024-03-18
+url: "https://github.com/aghaeifar-publications/RFPA_drif"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Aghaeifar"
+    given-names: "Ali"
+  - family-names: "Bosch"
+    given-names: "Dario"
+  - family-names: "Heule"
+    given-names: "Rahel"
+  - family-names: "Williams"
+    given-names: "Sydney"
+  - family-names: "Ehses"
+    given-names: "Philipp"
+  - family-names: "Mauconduit"
+    given-names: "Franck"
+  - family-names: "Scheffler"
+    given-names: "Klaus"
+  doi: "10.1002/mrm.30078"
+  journal: "Magnetic Resonance in Medicine"
+  title: "Intra-scan RF power amplifier drift correction"
+  year: 2024
+
