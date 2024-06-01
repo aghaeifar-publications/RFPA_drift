@@ -29,5 +29,9 @@ preferred-citation:
   doi: "10.1002/mrm.30078"
   journal: "Magnetic Resonance in Medicine"
   title: "Intra-scan RF power amplifier drift correction"
+  start: 645 # First page number
+  end: 659 # Last page number
+  issue: 2
+  volume: 92
   year: 2024
 
